@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Route Rush Hour Analyzer</title>
+</head>
+<body>
+  <h1>Route Rush Hour Analyzer</h1>
+
+  <form method="POST" action="/result">
+    <label for="origin">Origin</label>
+    <input id="origin" name="origin" type="text" required />
+
+    <label for="destination">Destination</label>
+    <input id="destination" name="destination" type="text" required />
+
+    <label for="departure_time">Departure Time</label>
+    <input id="departure_time" name="departure_time" type="datetime-local" required />
+
+    <label for="travel_mode">Travel Mode</label>
+    <select id="travel_mode" name="travel_mode" required>
+      <option value="drive">Drive</option>
+      <option value="bike">Bike</option>
+      <option value="walk">Walk</option>
+    </select>
+
+    <button type="submit">Analyze Route</button>
+  </form>
+</body>
+</html>
