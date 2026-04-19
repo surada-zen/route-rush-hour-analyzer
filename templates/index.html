@@ -4,12 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Route Rush Hour Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
   />
   <style>
     #map {
@@ -22,13 +27,25 @@
 <body>
   <h1>Route Rush Hour Analyzer</h1>
 
+  <label for="origin_name">Origin</label>
+  <input id="origin_name" name="origin_name" type="text" form="route-form" placeholder="Search for origin" />
+
+  <label for="destination_name">Destination</label>
+  <input
+    id="destination_name"
+    name="destination_name"
+    type="text"
+    form="route-form"
+    placeholder="Search for destination"
+  />
+
   <p>Click the map once to set <strong>Origin</strong>, then click again to set <strong>Destination</strong>.</p>
   <p>If both are already set, click again to reset and start over.</p>
 
   <div id="map"></div>
   <p id="selection-status">Origin: not set | Destination: not set</p>
 
-  <form method="POST" action="/result">
+  <form id="route-form" method="POST" action="/result">
     <input id="origin_lat" name="origin_lat" type="hidden" required />
     <input id="origin_lng" name="origin_lng" type="hidden" required />
     <input id="destination_lat" name="destination_lat" type="hidden" required />
@@ -52,6 +69,7 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
