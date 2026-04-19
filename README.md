@@ -1,5 +1,3 @@
-Create a minimal working Flask web app inside my repository "route-rush-hour-analyzer".
-
 Goal:
 I want a basic Flask app that runs and renders two pages.
 
