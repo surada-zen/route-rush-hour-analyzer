@@ -4,16 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Route Rush Hour Analyzer</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <style>
+    #map {
+      height: 400px;
+      max-width: 800px;
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
 <body>
   <h1>Route Rush Hour Analyzer</h1>
 
-  <form method="POST" action="/result">
-    <label for="origin">Origin</label>
-    <input id="origin" name="origin" type="text" required />
+  <p>Click the map once to set <strong>Origin</strong>, then click again to set <strong>Destination</strong>.</p>
+  <p>If both are already set, click again to reset and start over.</p>
 
-    <label for="destination">Destination</label>
-    <input id="destination" name="destination" type="text" required />
+  <div id="map"></div>
+  <p id="selection-status">Origin: not set | Destination: not set</p>
+
+  <form method="POST" action="/result">
+    <input id="origin_lat" name="origin_lat" type="hidden" required />
+    <input id="origin_lng" name="origin_lng" type="hidden" required />
+    <input id="destination_lat" name="destination_lat" type="hidden" required />
+    <input id="destination_lng" name="destination_lng" type="hidden" required />
 
     <label for="departure_time">Departure Time</label>
     <input id="departure_time" name="departure_time" type="datetime-local" required />
@@ -27,5 +46,12 @@
 
     <button type="submit">Analyze Route</button>
   </form>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
