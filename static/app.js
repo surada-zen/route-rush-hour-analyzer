@@ -12,6 +12,8 @@ const fields = {
   originLng: document.getElementById("origin_lng"),
   destinationLat: document.getElementById("destination_lat"),
   destinationLng: document.getElementById("destination_lng"),
+  routeDistanceKm: document.getElementById("route_distance_km"),
+  routeDurationMin: document.getElementById("route_duration_min"),
 };
 
 const statusText = document.getElementById("selection-status");
@@ -48,6 +50,9 @@ function drawPlaceholderRoute() {
   }).addTo(map);
 
   map.fitBounds(routeLine.getBounds(), { padding: [24, 24] });
+
+  fields.routeDistanceKm.value = "";
+  fields.routeDurationMin.value = "";
 }
 
 async function drawRouteLine() {
@@ -61,15 +66,19 @@ async function drawRouteLine() {
   removeRouteLine();
 
   try {
-    // This step adds real route geometry from a routing API (OSRM).
-    // Travel-time recommendations in Flask are still mock logic for now.
-    // Real traffic-aware duration logic will be added in a later step.
-    const routePoints = await fetchRoadRoutePoints(originPoint, destinationPoint);
-    routeLine = L.polyline(routePoints, {
+    // Route geometry, route distance, and baseline route duration are now real
+    // and come from the routing API (OSRM).
+    // Nearby departure recommendations in Flask are still mock and will later
+    // be replaced by traffic-aware API logic.
+    const routeData = await fetchRoadRouteData(originPoint, destinationPoint);
+    routeLine = L.polyline(routeData.points, {
       color: "#2f6fed",
       weight: 4,
       opacity: 0.9,
     }).addTo(map);
+
+    fields.routeDistanceKm.value = routeData.distanceKm.toFixed(2);
+    fields.routeDurationMin.value = routeData.durationMin.toFixed(1);
   } catch (error) {
     // Fallback: keep the app working with placeholder route points if API fails.
     drawPlaceholderRoute();
@@ -79,7 +88,7 @@ async function drawRouteLine() {
   map.fitBounds(routeLine.getBounds(), { padding: [24, 24] });
 }
 
-async function fetchRoadRoutePoints(originPoint, destinationPoint) {
+async function fetchRoadRouteData(originPoint, destinationPoint) {
   const apiUrl =
     `https://router.project-osrm.org/route/v1/driving/` +
     `${originPoint.lng},${originPoint.lat};${destinationPoint.lng},${destinationPoint.lat}` +
@@ -95,7 +104,12 @@ async function fetchRoadRoutePoints(originPoint, destinationPoint) {
     throw new Error("Routing response did not include route geometry");
   }
 
-  return data.routes[0].geometry.coordinates.map(([lng, lat]) => [lat, lng]);
+  const firstRoute = data.routes[0];
+  return {
+    points: firstRoute.geometry.coordinates.map(([lng, lat]) => [lat, lng]),
+    distanceKm: firstRoute.distance / 1000,
+    durationMin: firstRoute.duration / 60,
+  };
 }
 
 function buildPlaceholderRoutePoints(originPoint, destinationPoint) {
@@ -140,6 +154,8 @@ function resetSelections() {
   fields.originLng.value = "";
   fields.destinationLat.value = "";
   fields.destinationLng.value = "";
+  fields.routeDistanceKm.value = "";
+  fields.routeDurationMin.value = "";
   fields.originName.value = "";
   fields.destinationName.value = "";
 

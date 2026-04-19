@@ -13,8 +13,17 @@
   <p><strong>Destination:</strong> {{ destination_name }}</p>
   <p><strong>Origin Coordinates:</strong> {{ origin_lat }}, {{ origin_lng }}</p>
   <p><strong>Destination Coordinates:</strong> {{ destination_lat }}, {{ destination_lng }}</p>
+  <p><strong>Route Distance:</strong> {{ route_distance_km }} km</p>
+  <p><strong>Baseline Route Duration:</strong> {{ route_duration_min }} minutes</p>
   <p><strong>Departure Time:</strong> {{ departure_time }}</p>
   <p><strong>Travel Mode:</strong> {{ travel_mode }}</p>
+
+  <p>
+    <em>
+      Route geometry and baseline duration are from real routing API data. Nearby departure recommendations
+      below are still mock logic and will later be replaced with traffic-aware API logic.
+    </em>
+  </p>
 
   <h2>Nearby Departure Comparison (Mock Data)</h2>
   <table border="1" cellpadding="6" cellspacing="0">
@@ -51,6 +60,7 @@
   <p><strong>Best travel duration:</strong> {{ best_time_duration }} minutes</p>
   <p><strong>Estimated time saved:</strong> {{ time_saved }} minutes</p>
   <p><strong>Explanation:</strong> {{ explanation }}</p>
+  <p><strong>Traffic insight:</strong> {{ traffic_insight }}</p>
 
   <!-- TODO: Add map route path display between selected points next. -->
   <!-- TODO: Replace mock comparison table with Google Maps API durations and traffic patterns. -->
