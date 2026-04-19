@@ -14,11 +14,42 @@
   <p><strong>Departure Time:</strong> {{ departure_time }}</p>
   <p><strong>Travel Mode:</strong> {{ travel_mode }}</p>
 
-  <h2>Mock Recommendation Output</h2>
-  <p><strong>Recommended Time:</strong> {{ recommended_time }}</p>
-  <p><strong>Time Saved:</strong> {{ time_saved }}</p>
+  <h2>Nearby Departure Comparison (Mock Data)</h2>
+  <table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Departure Time</th>
+        <th>Estimated Duration (minutes)</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for slot in compared_slots %}
+      <tr {% if slot.is_best %}style="background-color: #d8f5d0;"{% endif %}>
+        <td>{{ slot.time }}</td>
+        <td>{{ slot.duration }}</td>
+        <td>
+          {% if slot.is_best %}
+            Recommended best time
+          {% elif slot.is_selected %}
+            Your selected time
+          {% else %}
+            Nearby option
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Recommendation Summary</h2>
+  <p><strong>Selected time:</strong> {{ departure_time }}</p>
+  <p><strong>Selected time duration:</strong> {{ selected_time_duration }} minutes</p>
+  <p><strong>Recommended departure time:</strong> {{ best_departure_time }}</p>
+  <p><strong>Best travel duration:</strong> {{ best_time_duration }} minutes</p>
+  <p><strong>Estimated time saved:</strong> {{ time_saved }} minutes</p>
   <p><strong>Explanation:</strong> {{ explanation }}</p>
 
-  <!-- TODO: Add visual route alternatives and traffic-aware recommendation details here. -->
+  <!-- TODO: Replace mock comparison table with Google Maps API durations and traffic patterns. -->
 </body>
 </html>
