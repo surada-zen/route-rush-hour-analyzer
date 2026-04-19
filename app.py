@@ -17,6 +17,9 @@ def _format_slot_time(slot_dt: datetime) -> str:
 
 @app.route("/result", methods=["POST"])
 def result():
+    origin_name = request.form.get("origin_name", "")
+    destination_name = request.form.get("destination_name", "")
+
     # Read map-selected coordinates from hidden form fields.
     origin_lat = request.form.get("origin_lat", "")
     origin_lng = request.form.get("origin_lng", "")
@@ -83,6 +86,8 @@ def result():
 
     return render_template(
         "result.html",
+        origin_name=origin_name,
+        destination_name=destination_name,
         origin_lat=origin_lat,
         origin_lng=origin_lng,
         destination_lat=destination_lat,
